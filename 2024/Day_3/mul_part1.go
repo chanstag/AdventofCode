@@ -52,17 +52,20 @@ func parse_nums(matches []string) [][]int {
 	return nums
 }
 
-func multiply(nums [][]int) int {
-	var total int = 0
-	for _, num := range nums {
-		total += num[0] * num[1]
-	}
-	return total
-}
+// func multiply(nums [][]int) int {
+// 	var total int = 0
+// 	for _, num := range nums {
+// 		total += num[0] * num[1]
+// 	}
+// 	return total
+// }
 
-func main() {
-	matches := parse_exp()
-	nums := parse_nums(matches)
+// func main() {
+// 	//This gets the correct answer
+// 	matches := parse_exp()
+// 	nums := parse_nums(matches)
+// 	fmt.Println(nums)
 
-	fmt.Println(nums)
-}
+// 	total := multiply(nums)
+// 	fmt.Println("Total: ", total)
+// }
