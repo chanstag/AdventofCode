@@ -19,6 +19,13 @@ top-right-to-bottom-left
 */
 func process_window(lines []string) int {
 	var total_matches = 0
+	var total_row = 0
+	var total_col = 0
+	var total_top_left_right = 0
+	var total_bot_right_left = 0
+	var total_top_right_left = 0
+	var total_bot_left_right = 0
+
 	//match 4 rows
 	current_row := 0
 	current_col := 0
@@ -32,26 +39,37 @@ func process_window(lines []string) int {
 			// 	break
 			// }
 			current_col = j
-			total_matches += match_row(current_row, current_col, lines) + match_col(current_row, current_col, lines) + match_top_left_right_diagnol(current_row, current_col, lines) + match_bot_right_left_diagnol(current_row, current_col, lines) + match_top_right_left_diagnol(current_row, current_col, lines) +
-				match_bot_left_right_diagnol(current_row, current_col, lines)
+			row := match_row(current_row, current_col, lines)
+			total_row += row
+			col := match_col(current_row, current_col, lines)
+			total_col += col
+			top_left_right := match_top_left_right_diagnol(current_row, current_col, lines)
+			total_top_left_right += top_left_right
+			bot_right_left := match_bot_right_left_diagnol(current_row, current_col, lines)
+			total_bot_right_left += bot_right_left
+			top_right_left := match_top_right_left_diagnol(current_row, current_col, lines)
+			total_top_right_left += top_right_left
+			bot_left_right := match_bot_left_right_diagnol(current_row, current_col, lines)
+			total_bot_left_right += bot_left_right
+			total_matches += row + col + top_left_right + bot_right_left + top_right_left + bot_left_right
 
 		}
 
 	}
-
+	fmt.Printf("%d %d %d %d %d %d", total_row, total_col, total_top_left_right, total_bot_right_left, total_top_right_left, total_bot_left_right)
 	return total_matches
 }
 
 func match_top_right_left_diagnol(current_row int, current_col int, lines []string) int {
-	var chars []rune
+	var word = ""
 	if len(lines)-current_row < 4 || current_col < 3 {
 		return 0
 	}
 
 	for i := range 4 {
-		chars = append(chars, rune(lines[current_row+i][current_col-i]))
+		word += string(lines[current_row+i][current_col-i])
 	}
-	if match_xmas(string(chars)) {
+	if match_xmas(string(word)) {
 		return 1
 	}
 
@@ -59,15 +77,15 @@ func match_top_right_left_diagnol(current_row int, current_col int, lines []stri
 }
 
 func match_top_left_right_diagnol(current_row int, current_col int, lines []string) int {
-	var chars []rune
+	var word = ""
 	if len(lines)-current_row < 4 || len(lines[0])-current_col < 4 {
 		return 0
 	}
 
 	for i := range 4 {
-		chars = append(chars, rune(lines[current_row+i][current_col+i]))
+		word += string(lines[current_row+i][current_col+i])
 	}
-	if match_xmas(string(chars)) {
+	if match_xmas(string(word)) {
 		return 1
 	}
 
@@ -76,31 +94,31 @@ func match_top_left_right_diagnol(current_row int, current_col int, lines []stri
 }
 
 func match_bot_right_left_diagnol(current_row int, current_col int, lines []string) int {
-	var chars []rune
+	var word = ""
 	if current_row < 3 || current_col < 3 {
 		return 0
 	}
 
 	for i := range 4 {
-		chars = append(chars, rune(lines[current_row-i][current_col-i]))
+		word += string(lines[current_row-i][current_col-i])
 	}
 
-	if match_xmas(string(chars)) {
+	if match_xmas(string(word)) {
 		return 1
 	}
 	return 0
 }
 
 func match_bot_left_right_diagnol(current_row int, current_col int, lines []string) int {
-	var chars []rune
+	var word = ""
 	if current_row < 4 || len(lines[0])-current_col < 4 {
 		return 0
 	}
 
 	for i := range 4 {
-		chars = append(chars, rune(lines[current_row-i][current_col+i]))
+		word += string(lines[current_row-i][current_col+i])
 	}
-	if match_xmas(string(chars)) {
+	if match_xmas(string(word)) {
 		return 1
 	}
 	return 0
