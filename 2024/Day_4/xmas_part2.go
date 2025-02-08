@@ -28,10 +28,15 @@ func process_window(lines []string) int {
 	current_row := 0
 	current_col := 0
 	for i, line := range lines {
+		if len(lines)-1-i < 3 {
+			break
+		}
 
 		current_row = i
 		for j, _ := range line {
-
+			if len(line)-1-j < 3 {
+				break
+			}
 			current_col = j
 			top_left_right := match_top_left_right_diagnol(current_row, current_col, lines)
 			// total_top_left_right += top_left_right
